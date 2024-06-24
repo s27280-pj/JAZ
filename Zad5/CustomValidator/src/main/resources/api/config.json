@@ -1,0 +1,10 @@
+{
+  "apiPackage": "org.example.customvalidator.api",
+  "modelPackage": "org.example.customvalidator.model",
+  "hideGenerationTimestamp": true,
+  "useBeanValidation": true,
+  "interfaceOnly": true,
+  "defaultInterfaces": false,
+  "skipDefaultInterface": true,
+  "java8": true
+}

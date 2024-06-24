@@ -1,0 +1,129 @@
+openapi: 3.0.3
+info:
+  title: Movie API
+  description: API for managing movie information
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /movies:
+    get:
+      summary: Get all movies
+      operationId: getAllMovies
+      responses:
+        '200':
+          description: A list of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovieResponse'
+    post:
+      summary: Add a new movie
+      operationId: addMovie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieRequest'
+      responses:
+        '201':
+          description: The created movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieResponse'
+  /movies/{id}:
+    get:
+      summary: Get movie by ID
+      operationId: getMovieById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The movie with the specified ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieResponse'
+        '404':
+          description: Movie not found
+    put:
+      summary: Update movie by ID
+      operationId: updateMovie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieRequest'
+      responses:
+        '200':
+          description: The updated movie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieResponse'
+        '404':
+          description: Movie not found
+    delete:
+      summary: Delete movie by ID
+      operationId: deleteMovie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Movie deleted successfully
+        '404':
+          description: Movie not found
+components:
+  schemas:
+    MovieRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        director:
+          type: string
+        year:
+          type: integer
+          format: int32
+        category:
+          $ref: '#/components/schemas/MovieCategory'
+    MovieResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        director:
+          type: string
+        year:
+          type: integer
+          format: int32
+        category:
+          $ref: '#/components/schemas/Movie'
+    MovieCategory:
+      type: string
+      enum:
+        - THILLER
+        - HORROR
+        - COMEDY
